@@ -257,6 +257,73 @@ describe('stringify', () => {
       );
     });
 
+    it('for directly cyclic object', () => {
+      const obj = {};
+      obj.obj = obj;
+
+      let errActual;
+      try {
+        stringify(obj, () => undefined);
+      } catch (err) {
+        errActual = err;
+      }
+
+      let errExpected;
+      try {
+        JSON.stringify(obj);
+      } catch (err) {
+        errExpected = err;
+      }
+
+      // Error message contains circular path since Node 12.
+      // Only check that our message is a prefix of built-in message
+      if (errActual
+        && errExpected
+        && errExpected.message.startsWith(errActual.message)) {
+        errActual.message = errExpected.message;
+      }
+
+      deepStrictEqual(errActual, errExpected);
+    });
+
+    it('for indirectly cyclic object', () => {
+      const obj1 = {};
+      obj1.obj2 = { obj1 };
+
+      let errActual;
+      try {
+        stringify(obj1, () => undefined);
+      } catch (err) {
+        errActual = err;
+      }
+
+      let errExpected;
+      try {
+        JSON.stringify(obj1);
+      } catch (err) {
+        errExpected = err;
+      }
+
+      // Error message contains circular path since Node 12.
+      // Only check that our message is a prefix of built-in message
+      if (errActual
+        && errExpected
+        && errExpected.message.startsWith(errActual.message)) {
+        errActual.message = errExpected.message;
+      }
+
+      deepStrictEqual(errActual, errExpected);
+    });
+
+    it('for repeated object', () => {
+      const obj = {};
+      const arr = [obj, obj];
+      strictEqual(
+        stringify(arr, () => undefined),
+        JSON.stringify(arr),
+      );
+    });
+
     [
       new Boolean(true),
       new Number(1),
