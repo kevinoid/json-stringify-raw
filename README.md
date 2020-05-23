@@ -1,4 +1,4 @@
-JSON.stringify Raw
+json-stringify-raw
 ==================
 
 [![Build Status: Linux](https://img.shields.io/travis/kevinoid/json-stringify-raw/master.svg?style=flat&label=build+on+linux)](https://travis-ci.org/kevinoid/json-stringify-raw)
@@ -9,10 +9,21 @@ JSON.stringify Raw
 [![Version on NPM](https://img.shields.io/npm/v/json-stringify-raw.svg?style=flat)](https://www.npmjs.com/package/json-stringify-raw)
 
 An implementation of
-[`JSON.stringify`](https://tc39.es/ecma262/#sec-json.stringify) where the
-value returned by the replacer function is used verbatim.  This gives callers
-more control over how values are serialized, including the ability to create
-JSON which is not strictly valid.
+[`JSON.stringify`](https://tc39.es/ecma262/#sec-json.stringify) where strings
+returned by the replacer function are used verbatim.  This gives callers
+more control over how values are stringified, which can be used to address
+interoperability issues, such as:
+
+* Parsers which distinguish integers from decimal/floating point numbers
+  (e.g. `1` is treated differently from `1.0`).
+* Parsers which assign significance to the number of fractional digits
+  (e.g. treating `1.00` as less precise than `1.000`).
+* Parsers which distinguish exponential from non-exponential representations.
+* Parsers which require special string escaping (e.g. for incorrect whitespace
+  or charset handling).
+
+It can also be used to produce extensions to JSON which can represent `NaN`,
+`Infinity`, `Date`, `RegExp`, or other values not representable in JSON.
 
 
 ## Introductory Example
@@ -28,6 +39,17 @@ function replaceFixed(key, value) {
 }
 stringify([1, 2, true], replaceFixed); // '[1.00,2.00,true]'
 ```
+
+
+## Usage
+
+The function exported by `json-stringify-raw` behaves [like `JSON.stringify`
+specified in
+ES2019](https://www.ecma-international.org/ecma-262/10.0/index.html#sec-json.stringify)
+with the exception that the `replacer` argument must return either a string,
+which represents the value being replaced in the output, or
+`undefined`/`null`, indicating that the value should be stringified normally,
+without replacement.  Any other value causes `TypeError` to be thrown.
 
 
 ## Installation
