@@ -13,11 +13,13 @@ function stringifyArray(array, replacer, gap, indent) {
   const newIndent = indent + gap;
   const propSep = gap ? `,\n${newIndent}` : ',';
 
-  let partial = '';
+  let partial;
   for (let i = 0; i < array.length; i += 1) {
     // eslint-disable-next-line no-use-before-define
     const strP = stringifyProperty(array, `${i}`, replacer, gap, newIndent);
-    if (partial) {
+    if (partial === undefined) {
+      partial = '';
+    } else {
       partial += propSep;
     }
     partial += strP === undefined ? 'null' : strP;

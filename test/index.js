@@ -371,6 +371,13 @@ describe('stringify', () => {
     );
   });
 
+  it('can replace with empty string in Array', () => {
+    strictEqual(
+      stringify([1, 2], (k, v) => (typeof v === 'number' ? '' : undefined)),
+      '[,]',
+    );
+  });
+
   it('does not call replacer on replaced values', () => {
     const child = {};
     const parent = { child };
