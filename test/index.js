@@ -81,6 +81,20 @@ function throwsSame(runActual, runExpected, mustThrow) {
 
 describe('stringify', () => {
   describe('behaves like JSON.stringify', () => {
+    it('has same .name', () => {
+      strictEqual(
+        stringify.name,
+        JSON.stringify.name,
+      );
+    });
+
+    it('has same .length', () => {
+      strictEqual(
+        stringify.length,
+        JSON.stringify.length,
+      );
+    });
+
     it('for no arguments', () => {
       strictEqual(
         stringify(),
