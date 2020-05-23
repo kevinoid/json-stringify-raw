@@ -73,11 +73,19 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
   }
 
   const replaced = replacer.call(holder, key, value);
+  // Replacer can act as value filter by returning boolean.
+  // Note: JSON.stringify uses undefined for this, but it's so convenient
+  // to treat undefined as "don't replace", that false was chosen instead.
+  if (replaced === false) {
+    return undefined;
+  }
   if (typeof replaced === 'string') {
     return replaced;
   }
-  if (replaced !== undefined && replaced !== null) {
-    throw new TypeError(`replacer returned non-string value: ${replaced}`);
+  if (replaced !== undefined && replaced !== null && replaced !== true) {
+    throw new TypeError(
+      `replacer returned non-string, non-boolean value: ${replaced}`,
+    );
   }
 
   if (value === null) {

@@ -209,6 +209,54 @@ describe('stringify', () => {
       deepStrictEqual(actualThis, expectedThis);
     });
 
+    it('omitting first value in object', () => {
+      const obj = { a: 1, b: 2 };
+      strictEqual(
+        stringify(obj, (k) => k !== 'a', 2),
+        JSON.stringify(obj, (k, v) => (k === 'a' ? undefined : v), 2),
+      );
+    });
+
+    it('omitting last value in object', () => {
+      const obj = { a: 1, b: 2 };
+      strictEqual(
+        stringify(obj, (k) => k !== 'b', 2),
+        JSON.stringify(obj, (k, v) => (k === 'b' ? undefined : v), 2),
+      );
+    });
+
+    it('omitting only value in object', () => {
+      const obj = { a: 1 };
+      strictEqual(
+        stringify(obj, (k) => k !== 'a', 2),
+        JSON.stringify(obj, (k, v) => (k === 'a' ? undefined : v), 2),
+      );
+    });
+
+    it('omitting first value in Array', () => {
+      const arr = [1, 2];
+      strictEqual(
+        stringify(arr, (k) => k !== '0', 2),
+        JSON.stringify(arr, (k, v) => (k === '0' ? undefined : v), 2),
+      );
+    });
+
+    it('omitting last value in Array', () => {
+      const arr = [1, 2];
+      strictEqual(
+        stringify(arr, (k) => k !== '1', 2),
+        JSON.stringify(arr, (k, v) => (k === '1' ? undefined : v), 2),
+      );
+    });
+
+    it('omitting only value in Array', () => {
+      const arr = [1];
+      strictEqual(
+        stringify(arr, (k) => k !== '0', 2),
+        JSON.stringify(arr, (k, v) => (k === '0' ? undefined : v), 2),
+      );
+    });
+
     [
       new Boolean(true),
       new Number(1),
@@ -348,7 +396,7 @@ describe('stringify', () => {
     );
   });
 
-  [true, 1, {}].forEach((val) => {
+  [1, {}].forEach((val) => {
     it(`throws TypeError if replacer returns ${typeof val}`, () => {
       assert.throws(
         () => stringify(1, () => val),
@@ -392,5 +440,28 @@ describe('stringify', () => {
       stringify(parent, replacer),
       'TEST',
     );
+  });
+
+  describe('false from replacer', () => {
+    it('produces undefined for top value', () => {
+      strictEqual(
+        stringify({}, () => false),
+        undefined,
+      );
+    });
+
+    it('omits key from object', () => {
+      strictEqual(
+        stringify({ a: true, b: true }, (k) => k !== 'a'),
+        '{"b":true}',
+      );
+    });
+
+    it('produces null in array', () => {
+      strictEqual(
+        stringify([1, 2, 3], (k) => k !== '1'),
+        '[1,null,3]',
+      );
+    });
   });
 });

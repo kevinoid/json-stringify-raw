@@ -47,9 +47,10 @@ The function exported by `json-stringify-raw` behaves [like `JSON.stringify`
 specified in
 ES2019](https://www.ecma-international.org/ecma-262/10.0/index.html#sec-json.stringify)
 with the exception that the `replacer` argument must return either a string,
-which represents the value being replaced in the output, or
-`undefined`/`null`, indicating that the value should be stringified normally,
-without replacement.  Any other value causes `TypeError` to be thrown.
+which represents the value being replaced in the output, a boolean, to include
+or exclude the property from the output, or `undefined`/`null`, to indicate
+that the value should be stringified normally, without replacement.  Any other
+value causes `TypeError` to be thrown.
 
 
 ## Installation
