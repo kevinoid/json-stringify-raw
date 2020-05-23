@@ -1,4 +1,5 @@
 /**
+ * @module json-stringify-raw
  * @copyright Copyright 2020 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
  */
@@ -9,6 +10,39 @@
 const stack = [];
 
 
+// Note: @this doesn't allow documentation beyond type.  Doc in @description.
+// See https://github.com/jsdoc/jsdoc/issues/1782
+//
+// Note: @callback (and @param references) must declare module explicitly
+// See https://github.com/jsdoc/jsdoc/issues/356
+
+/** Function to selectively replace values in JSON output.
+ *
+ * Called with <code>this</code> set to the object on which the value is a
+ * property.
+ *
+ * @callback module:json-stringify-raw~replacerFunction
+ * @param {string} key Name of property value to replace, or empty string for
+ * a value which was not passed as a property.
+ * @param {*} value Value to replace.
+ * @returns {?string|boolean} A string which represents the value in the JSON,
+ * a boolean to include or exclude the property from the JSON, or
+ * {@link null} or {@link undefined} to indicate that the value should be
+ * stringified normally, without replacement.  Any other value will cause
+ * {@link TypeError} to be thrown.
+ */
+
+
+/** Converts a given array to a JSON string, using a given replacer, gap, and
+ * indent.
+ *
+ * @private
+ * @param {!Array} array Array to be converted to JSON.
+ * @param {module:json-stringify-raw~replacerFunction} replacer Value replacer.
+ * @param {string} gap String added to indent each array element.
+ * @param {string} indent String used to indent the array as a whole.
+ * @returns {string} JSON representing value.
+ */
 function stringifyArray(array, replacer, gap, indent) {
   const newIndent = indent + gap;
   const propSep = gap ? `,\n${newIndent}` : ',';
@@ -34,6 +68,16 @@ function stringifyArray(array, replacer, gap, indent) {
 }
 
 
+/** Converts a given object to a JSON string, using a given replacer, gap, and
+ * indent.
+ *
+ * @private
+ * @param {!object} object Object to be converted to JSON.
+ * @param {module:json-stringify-raw~replacerFunction} replacer Value replacer.
+ * @param {string} gap String added to indent each object property.
+ * @param {string} indent String used to indent the object as a whole.
+ * @returns {string} JSON representing value.
+ */
 function stringifyObject(object, replacer, gap, indent) {
   const newIndent = indent + gap;
   const propSep = gap ? `,\n${newIndent}` : ',';
@@ -61,6 +105,17 @@ function stringifyObject(object, replacer, gap, indent) {
 }
 
 
+/** Converts a given property of a given object to a JSON string, using a given
+ * replacer, gap, and indent.
+ *
+ * @private
+ * @param {!object} holder Object holding property to be converted to JSON.
+ * @param {string} key Name of property to be converted to JSON.
+ * @param {module:json-stringify-raw~replacerFunction} replacer Value replacer.
+ * @param {string} gap String added to indent each child properties.
+ * @param {string} indent String used to indent subsequent values.
+ * @returns {string=} JSON for value, or {@link undefined} if not representable.
+ */
 function stringifyProperty(holder, key, replacer, gap, indent) {
   let value = holder[key];
 
@@ -123,6 +178,21 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
 }
 
 
+/** Converts a given value to a JSON string, optionally using a given
+ * replacer function and spacing.
+ *
+ * @see {@link https://tc39.es/ecma262/#sec-numeric-types-number-tostring}
+ * @param {*} value Value to be converted to JSON.
+ * @param {?(module:json-stringify-raw~replacerFunction|Array<string|number>)=
+ * } replacer Optional function to selectively replace values in the JSON, or
+ * array of property names which will be converted to JSON.
+ * @param {?(number|string)=} space Number of spaces, or string added to each
+ * nesting level during output.  If no indent is added, line breaks and
+ * spacing between elements is omitted.  Indents are limited to 10
+ * characters, negatives values are ignored.
+ * @returns {string=} JSON for value, or {@link undefined} if not representable.
+ */
+module.exports =
 function stringify(value, replacer, space) {
   if (typeof replacer !== 'function') {
     return JSON.stringify(value, replacer, space);
@@ -144,7 +214,4 @@ function stringify(value, replacer, space) {
   }
 
   return stringifyProperty({ '': value }, '', replacer, gap, '');
-}
-
-
-module.exports = stringify;
+};
