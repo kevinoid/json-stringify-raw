@@ -110,7 +110,7 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
   }
 
   if (stack.includes(value)) {
-    throw new TypeError('cyclic object value');
+    throw new TypeError('Converting circular structure to JSON');
   }
   stack.push(value);
   try {
