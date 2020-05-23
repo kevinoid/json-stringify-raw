@@ -191,6 +191,11 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
  * spacing between elements is omitted.  Indents are limited to 10
  * characters, negatives values are ignored.
  * @returns {string=} JSON for value, or {@link undefined} if not representable.
+ * @throws {TypeError} If value contains circular references.
+ * @throws {TypeError} If value contains a bigint and BigInt.prototype.toJSON
+ * has not been defined.
+ * @throws {TypeError} If replacer returns a value which is not a stirng,
+ * boolean, null, or undefined.
  */
 module.exports =
 function stringify(value, replacer, space) {
