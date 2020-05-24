@@ -9,7 +9,6 @@
 // Note: object stack is global state to handle replacer calling stringify.
 const stack = [];
 
-
 // Note: @this doesn't allow documentation beyond type.  Doc in @description.
 // See https://github.com/jsdoc/jsdoc/issues/1782
 //
