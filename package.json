@@ -1,6 +1,6 @@
 {
   "name": "json-stringify-raw",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Variant of JSON.stringify where the value returned by the replacer function is used verbatim.",
   "keywords": [
     "json",
