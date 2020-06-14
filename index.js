@@ -31,7 +31,6 @@ const stack = [];
  * {@link TypeError} to be thrown.
  */
 
-
 /** Converts a given array to a JSON string, using a given replacer, gap, and
  * indent.
  *
@@ -65,7 +64,6 @@ function stringifyArray(array, replacer, gap, indent) {
   return gap ? `[\n${newIndent}${partial}\n${indent}]`
     : `[${partial}]`;
 }
-
 
 /** Converts a given object to a JSON string, using a given replacer, gap, and
  * indent.
@@ -102,7 +100,6 @@ function stringifyObject(object, replacer, gap, indent) {
   return gap ? `{\n${newIndent}${partial}\n${indent}}`
     : `{${partial}}`;
 }
-
 
 /** Converts a given property of a given object to a JSON string, using a given
  * replacer, gap, and indent.
@@ -175,7 +172,6 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
     stack.pop();
   }
 }
-
 
 /** Converts a given value to a JSON string, optionally using a given
  * replacer function and spacing.
