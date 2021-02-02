@@ -80,7 +80,7 @@ function stringifyObject(object, replacer, gap, indent) {
   const propSep = gap ? `,\n${newIndent}` : ',';
 
   let partial = '';
-  Object.keys(object).forEach((key) => {
+  for (const key of Object.keys(object)) {
     // eslint-disable-next-line no-use-before-define
     const strP = stringifyProperty(object, key, replacer, gap, newIndent);
     if (strP !== undefined) {
@@ -91,7 +91,7 @@ function stringifyObject(object, replacer, gap, indent) {
       partial += gap ? ': ' : ':';
       partial += strP;
     }
-  });
+  }
 
   if (!partial) {
     return '{}';

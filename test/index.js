@@ -39,7 +39,7 @@ const mixed = Object.assign(Object.create({ protoKey: true }), {
   sparseArray: [1, , undefined, null],
   foreignEmptyArray: runInNewContext('[]'), // Note: not instanceof Array
   RegExp: /pattern/,
-  Error: new Error(),
+  Error: new Error('test'),
   Date: new Date(),
   function: function identity(arg) { return arg; },
   arrowFunction: (arg) => arg,
@@ -338,21 +338,21 @@ describe('stringify', () => {
       );
     });
 
-    [
+    for (const obj of [
       new Boolean(true),
       new Number(1),
       new String('test'),
-    ].forEach((obj) => {
-      const { name } = obj.constructor;
+    ]) {
+      const { name, prototype } = obj.constructor;
       it(`for .toJSON on ${name} prototype`, () => {
-        obj.constructor.prototype.toJSON = () => 'HERE';
+        prototype.toJSON = () => 'HERE';
         try {
           strictEqual(
             stringify(obj, () => undefined),
             JSON.stringify(obj),
           );
         } finally {
-          delete obj.constructor.prototype.toJSON;
+          delete prototype.toJSON;
         }
       });
 
@@ -363,7 +363,7 @@ describe('stringify', () => {
           JSON.stringify(obj),
         );
       });
-    });
+    }
 
     (typeof BigInt === 'function' ? describe : xdescribe)('BigInt', () => {
       it('for bigint', () => {
@@ -477,14 +477,14 @@ describe('stringify', () => {
     );
   });
 
-  [1, {}].forEach((val) => {
+  for (const val of [1, {}]) {
     it(`throws TypeError if replacer returns ${typeof val}`, () => {
       assert.throws(
         () => stringify(1, () => val),
         TypeError,
       );
     });
-  });
+  }
 
   it('can replace undefined', () => {
     strictEqual(
