@@ -2,6 +2,7 @@
  * @module json-stringify-raw
  * @copyright Copyright 2020 Kevin Locke <kevin@kevinlocke.name>
  * @license MIT
+ * @module modulename
  */
 
 'use strict';
