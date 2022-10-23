@@ -111,7 +111,8 @@ function stringifyObject(object, replacer, gap, indent) {
  * @param {module:json-stringify-raw~replacerFunction} replacer Value replacer.
  * @param {string} gap String added to indent each child properties.
  * @param {string} indent String used to indent subsequent values.
- * @returns {string=} JSON for value, or {@link undefined} if not representable.
+ * @returns {string|undefined} JSON for value, or {@link undefined} if not
+ * representable.
  */
 function stringifyProperty(holder, key, replacer, gap, indent) {
   let value = holder[key];
@@ -186,7 +187,8 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
  * nesting level during output.  If no indent is added, line breaks and
  * spacing between elements is omitted.  Indents are limited to 10
  * characters, negatives values are ignored.
- * @returns {string=} JSON for value, or {@link undefined} if not representable.
+ * @returns {string|undefined} JSON for value, or {@link undefined} if not
+ * representable.
  * @throws {TypeError} If value contains circular references.
  * @throws {TypeError} If value contains a bigint and BigInt.prototype.toJSON
  * has not been defined.
