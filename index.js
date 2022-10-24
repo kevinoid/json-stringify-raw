@@ -102,8 +102,6 @@ function stringifyObject(object, replacer, gap, indent) {
     : `{${partial}}`;
 }
 
-// https://github.com/gajus/eslint-plugin-jsdoc/issues/926
-// eslint-disable-next-line jsdoc/require-returns-check
 /** Converts a given property of a given object to a JSON string, using a given
  * replacer, gap, and indent.
  *
