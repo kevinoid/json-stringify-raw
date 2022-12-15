@@ -1,7 +1,7 @@
 json-stringify-raw
 ==================
 
-[![Build Status](https://img.shields.io/github/workflow/status/kevinoid/json-stringify-raw/Node.js%20CI/main.svg?style=flat&label=build)](https://github.com/kevinoid/json-stringify-raw/actions?query=branch%3Amain)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/kevinoid/json-stringify-raw/node.js.yml?branch=main&style=flat&label=build)](https://github.com/kevinoid/json-stringify-raw/actions?query=branch%3Amain)
 [![Coverage](https://img.shields.io/codecov/c/github/kevinoid/json-stringify-raw.svg?style=flat)](https://codecov.io/github/kevinoid/json-stringify-raw?branch=main)
 [![Dependency Status](https://img.shields.io/david/kevinoid/json-stringify-raw.svg?style=flat)](https://david-dm.org/kevinoid/json-stringify-raw)
 [![Supported Node Version](https://img.shields.io/node/v/json-stringify-raw.svg?style=flat)](https://www.npmjs.com/package/json-stringify-raw)
