@@ -7,8 +7,8 @@
 
 /* eslint-disable no-new-wrappers, unicorn/new-for-builtins */
 
-const assert = require('assert');
-const { runInNewContext } = require('vm');
+const assert = require('node:assert');
+const { runInNewContext } = require('node:vm');
 
 // https://github.com/import-js/eslint-plugin-import/issues/2844
 // eslint-disable-next-line import/extensions
