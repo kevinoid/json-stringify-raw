@@ -12,7 +12,7 @@
   "author": "Kevin Locke <kevin@kevinlocke.name>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kevinoid/json-stringify-raw.git"
+    "url": "git+https://github.com/kevinoid/json-stringify-raw.git"
   },
   "type": "commonjs",
   "files": [
