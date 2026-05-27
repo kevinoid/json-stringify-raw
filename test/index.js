@@ -370,16 +370,16 @@ describe('stringify', () => {
     (typeof BigInt === 'function' ? describe : xdescribe)('BigInt', () => {
       it('for bigint', () => {
         throwsSame(
-          () => stringify(BigInt(2), () => undefined),
-          () => JSON.stringify(BigInt(2)),
+          () => stringify(2n, () => undefined),
+          () => JSON.stringify(2n),
           true,
         );
       });
 
       it('for BigInt', () => {
         throwsSame(
-          () => stringify(Object(BigInt(2)), () => undefined),
-          () => JSON.stringify(Object(BigInt(2))),
+          () => stringify(Object(2n), () => undefined),
+          () => JSON.stringify(Object(2n)),
           true,
         );
       });
@@ -389,8 +389,8 @@ describe('stringify', () => {
         BigInt.prototype.toJSON = (k, v) => `${v}n`;
         try {
           strictEqual(
-            stringify(BigInt(2), () => undefined),
-            JSON.stringify(BigInt(2)),
+            stringify(2n, () => undefined),
+            JSON.stringify(2n),
           );
         } finally {
           delete BigInt.prototype.toJSON;
@@ -402,8 +402,8 @@ describe('stringify', () => {
         BigInt.prototype.toJSON = (k, v) => `${v}n`;
         try {
           strictEqual(
-            stringify(Object(BigInt(2)), () => undefined),
-            JSON.stringify(Object(BigInt(2))),
+            stringify(Object(2n), () => undefined),
+            JSON.stringify(Object(2n)),
           );
         } finally {
           delete BigInt.prototype.toJSON;
