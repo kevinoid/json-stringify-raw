@@ -146,11 +146,25 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
   }
 
   // Unwrap primitive wrapper objects
-  if (value instanceof BigInt
-    || value instanceof Boolean
-    || value instanceof Number
-    || value instanceof String) {
-    value = value.valueOf();
+  //
+  // Note: Avoid instanceof, which doesn't work across realms:
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof#instanceof_and_multiple_realms
+  // Instead, try calling valueOf, which throws for type mismatch, like is:
+  // https://github.com/sindresorhus/is/blob/v8.1.0/source/index.ts#L265-L280
+  if (typeof value === 'object') {
+    for (const wrapperValueOf of [
+      BigInt.prototype.valueOf,
+      Boolean.prototype.valueOf,
+      Number.prototype.valueOf,
+      String.prototype.valueOF,
+    ]) {
+      try {
+        value = wrapperValueOf.call(value);
+        break;
+      } catch {
+        // Ignore TypeError thrown when value doesn't have wrapper type
+      }
+    }
   }
 
   switch (typeof value) {
@@ -201,10 +215,19 @@ function stringify(value, replacer, space) {
     return JSON.stringify(value, replacer, space);
   }
 
-  if (space instanceof Number) {
-    space = Number(space);
-  } else if (space instanceof String) {
-    space = String(space);
+  // Unwrap primitive wrapper object
+  // Note: Avoid instanceof.  Call #valueOf() to test type.
+  // See comment in stringifyProperty for rationale.
+  if (typeof space === 'object' && space !== null) {
+    try {
+      space = Number.prototype.valueOf.call(space);
+    } catch {
+      try {
+        space = String.prototype.valueOf.call(space);
+      } catch {
+        // Ignore TypeError thrown when value doesn't have wrapper type
+      }
+    }
   }
 
   let gap = '';
