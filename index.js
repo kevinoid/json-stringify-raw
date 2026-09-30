@@ -156,7 +156,7 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
       BigInt.prototype.valueOf,
       Boolean.prototype.valueOf,
       Number.prototype.valueOf,
-      String.prototype.valueOF,
+      String.prototype.valueOf,
     ]) {
       try {
         value = wrapperValueOf.call(value);
