@@ -52,12 +52,14 @@ const mixed = Object.assign(Object.create({ protoKey: true }), {
 (function(a, b, c) {
   mixed.arguments = arguments;  // eslint-disable-line prefer-rest-params
 }(true, undefined, 1));
-Object.defineProperty(mixed, 'enumerableGetter', {
-  enumerable: true,
-  get: () => true,
-});
-Object.defineProperty(mixed, 'nonEnumerable', {
-  value: true,
+Object.defineProperties(mixed, {
+  enumerableGetter: {
+    enumerable: true,
+    get: () => true,
+  },
+  nonEnumerable: {
+    value: true,
+  },
 });
 
 function throwsSame(runActual, runExpected, mustThrow) {
