@@ -35,6 +35,9 @@ const mixed = Object.assign(Object.create({ protoKey: true }), {
   'Number(-Infinity)': new Number(-Infinity),
   NaN,
   'Number(NaN)': new Number(NaN),
+  '': '',
+  string: 'string',
+  'String(string)': new String('string'),
   emptyObj: {},
   emptyArray: [],
   // eslint-disable-next-line no-sparse-arrays
@@ -358,11 +361,31 @@ describe('stringify', () => {
         }
       });
 
+      it(`for .toJSON on property value ${name} prototype`, () => {
+        prototype.toJSON = () => 'HERE';
+        try {
+          strictEqual(
+            stringify({ prop: obj }, () => undefined),
+            JSON.stringify({ prop: obj }),
+          );
+        } finally {
+          delete prototype.toJSON;
+        }
+      });
+
       it(`for .toJSON on ${name}`, () => {
         obj.toJSON = () => 'HERE';
         strictEqual(
           stringify(obj, () => undefined),
           JSON.stringify(obj),
+        );
+      });
+
+      it(`for .toJSON on property value ${name}`, () => {
+        obj.toJSON = () => 'HERE';
+        strictEqual(
+          stringify({ prop: obj }, () => undefined),
+          JSON.stringify({ prop: obj }),
         );
       });
     }
@@ -376,10 +399,26 @@ describe('stringify', () => {
         );
       });
 
+      it('for bigint property value', () => {
+        throwsSame(
+          () => stringify({ prop: 2n }, () => undefined),
+          () => JSON.stringify({ prop: 2n }),
+          true,
+        );
+      });
+
       it('for BigInt', () => {
         throwsSame(
           () => stringify(Object(2n), () => undefined),
           () => JSON.stringify(Object(2n)),
+          true,
+        );
+      });
+
+      it('for BigInt property value', () => {
+        throwsSame(
+          () => stringify({ prop: Object(2n) }, () => undefined),
+          () => JSON.stringify({ prop: Object(2n) }),
           true,
         );
       });
@@ -419,6 +458,13 @@ describe('stringify', () => {
         strictEqual(
           stringify(symbol, () => undefined),
           JSON.stringify(symbol),
+        );
+      });
+
+      it('for symbol property value', () => {
+        strictEqual(
+          stringify({ prop: symbol }, () => undefined),
+          JSON.stringify({ prop: symbol }),
         );
       });
 
