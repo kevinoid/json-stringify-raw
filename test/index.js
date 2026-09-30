@@ -431,7 +431,7 @@ describe('stringify', () => {
 
       it('for symbol with Symbol.prototype.toJSON', () => {
         // eslint-disable-next-line no-extend-native
-        Symbol.prototype.toJSON = (k, v) => `${v}`;
+        Symbol.prototype.toJSON = (k, v) => String(v);
         try {
           strictEqual(
             stringify(symbol, () => undefined),
@@ -444,7 +444,7 @@ describe('stringify', () => {
 
       it('for Symbol with Symbol.prototype.toJSON', () => {
         // eslint-disable-next-line no-extend-native
-        Symbol.prototype.toJSON = (k, v) => `${v}`;
+        Symbol.prototype.toJSON = (k, v) => String(v);
         try {
           strictEqual(
             stringify(symbolObj, () => undefined),

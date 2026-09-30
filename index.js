@@ -49,7 +49,7 @@ function stringifyArray(array, replacer, gap, indent) {
   let partial;
   for (let i = 0; i < array.length; i += 1) {
     // eslint-disable-next-line no-use-before-define
-    const strP = stringifyProperty(array, `${i}`, replacer, gap, newIndent);
+    const strP = stringifyProperty(array, String(i), replacer, gap, newIndent);
     if (partial === undefined) {
       partial = '';
     } else {
@@ -170,8 +170,8 @@ function stringifyProperty(holder, key, replacer, gap, indent) {
   switch (typeof value) {
     case 'undefined': return undefined;
     case 'function': return undefined;
-    case 'boolean': return `${value}`;
-    case 'number': return Number.isFinite(value) ? `${value}` : 'null';
+    case 'boolean': return String(value);
+    case 'number': return Number.isFinite(value) ? String(value) : 'null';
     case 'object': break;
     default: return JSON.stringify(value);
   }
