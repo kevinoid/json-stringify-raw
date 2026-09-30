@@ -233,7 +233,7 @@ function stringify(value, replacer, space) {
   let gap = '';
   if (typeof space === 'number') {
     if (space >= 1) {
-      gap = '          '.slice(0, space);
+      gap = ' '.repeat(10).slice(0, space);
     }
   } else if (typeof space === 'string') {
     gap = space.slice(0, 10);
