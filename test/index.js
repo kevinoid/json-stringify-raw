@@ -61,27 +61,27 @@ Object.defineProperty(mixed, 'nonEnumerable', {
 });
 
 function throwsSame(runActual, runExpected, mustThrow) {
-  let threwActual = false;
+  let haveActual = false;
   let errActual;
   try {
     runActual();
   } catch (err) {
     errActual = err;
-    threwActual = true;
+    haveActual = true;
   }
 
-  let threwExpected = false;
+  let haveExpected = false;
   let errExpected;
   try {
     runExpected();
   } catch (err) {
     errExpected = err;
-    threwExpected = true;
+    haveExpected = true;
   }
 
   deepStrictEqual(errActual, errExpected);
-  strictEqual(threwActual, threwExpected);
-  assert(!mustThrow || threwActual, `Expected ${runActual} to throw`);
+  strictEqual(haveActual, haveExpected);
+  assert(!mustThrow || haveActual, `Expected ${runActual} to throw`);
 }
 
 describe('stringify', () => {
