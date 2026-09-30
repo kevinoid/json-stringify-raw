@@ -105,6 +105,7 @@ describe('stringify', () => {
     it('for no arguments', () => {
       strictEqual(
         stringify(),
+        // eslint-disable-next-line unicorn/no-invalid-argument-count
         JSON.stringify(),
       );
     });
@@ -425,6 +426,7 @@ describe('stringify', () => {
         );
       });
 
+      /* eslint-disable unicorn/no-nonstandard-builtin-properties */
       it('for bigint with BigInt.prototype.toJSON', () => {
         // eslint-disable-next-line no-extend-native
         BigInt.prototype.toJSON = (k, v) => `${v}n`;
@@ -450,6 +452,7 @@ describe('stringify', () => {
           delete BigInt.prototype.toJSON;
         }
       });
+      /* eslint-enable unicorn/no-nonstandard-builtin-properties */
     });
 
     (typeof Symbol === 'function' ? describe : xdescribe)('Symbol', () => {
@@ -477,6 +480,7 @@ describe('stringify', () => {
         );
       });
 
+      /* eslint-disable unicorn/no-nonstandard-builtin-properties */
       it('for symbol with Symbol.prototype.toJSON', () => {
         // eslint-disable-next-line no-extend-native
         Symbol.prototype.toJSON = (k, v) => String(v);
@@ -502,6 +506,7 @@ describe('stringify', () => {
           delete Symbol.prototype.toJSON;
         }
       });
+      /* eslint-enable unicorn/no-nonstandard-builtin-properties */
 
       it('for symbol properties', () => {
         const obj = { [symbol]: true };
