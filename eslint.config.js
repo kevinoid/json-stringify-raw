@@ -67,6 +67,9 @@ module.exports = [
       // For Mocha (e.g. this.timeout()) and testing `this` (e.g. in callbacks)
       'unicorn/no-this-outside-of-class': 'off',
 
+      // Allow known values that JSON serialization cannot represent faithfully
+      'unicorn/no-unsafe-json-serialization': 'off',
+
       // Allow EventEmitter use in tests
       'unicorn/prefer-event-target': 'off',
     },
